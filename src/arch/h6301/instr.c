@@ -22,10 +22,22 @@
 
 
 /*
- *  reset - jump to the reset vector
+ *  reset - reset internal registers and jump to the reset vector
  */
 reset ()
 {
+    ireg_putb(DDR1, 0);
+    ireg_putb(DDR2, 0);
+    ireg_putb(DDR3, 0);
+    ireg_putb(DDR4, 0);
+
+    ireg_putb(RMCR, 0);
+    ireg_putb(TRCSR, 0x20);
+
+    ireg_putb(TCSR, 0);
+    ireg_putw(FRC, 0);
+    ireg_putw(OCR, 0xffff);
+
 	reg_setpc (mem_getw (RESVECTOR));
 	reg_setiflag (1);
 }
